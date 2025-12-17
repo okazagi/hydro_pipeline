@@ -1,0 +1,5 @@
+.Rproj.user
+data_raw/
+data_clean/
+_targets/
+.Renviron
