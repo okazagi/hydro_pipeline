@@ -45,8 +45,6 @@ for (file in json_files) {
   # 3. Iterate through sensors
   for (i in 1:nrow(raw_data)) {
 
-    # --- FIX: DIRECT ACCESS TO FLATTENED COLUMNS ---
-
     # Get Element Code (e.g., SMS, TOBS)
     elem_code <- raw_data$stationElement.elementCode[i]
 
@@ -90,17 +88,71 @@ for (file in json_files) {
     }
   }
 
-  # 4. Merge and Save
+  # 4. Merge, Map to Schema, and Save
   if (length(data_frames_list) > 0) {
-    final_df <- data_frames_list %>%
+
+    # helper function to safely get column or return NA
+    get_col <- function(df, col_name) {
+      if (col_name %in% names(df)) return(df[[col_name]])
+      return(NA_real_)
+    }
+
+    # Merge all sensor data frames
+    merged_df <- data_frames_list %>%
       reduce(full_join, by = "date") %>%
       arrange(date)
+
+    # --- APPLY MASTER SCHEMA MAPPING ---
+    final_df <- merged_df %>%
+      transmute(
+        date = date,
+
+        # Identifiers
+        Station_ID   = station_name,
+        Station_Name = station_name,
+
+        # Air / Atmos
+        AirTemp_C           = get_col(., "TOBS"),
+        RH                  = get_col(., "RHUM"),
+        Barometric_Pressure = NA_real_,
+
+        # Neutron Counts
+        Epithermal_Neutron_counts          = NA_real_,
+        Thermal_Neutron_counts             = NA_real_,
+        Blw_Grnd_Epithermal_Neutron_counts = NA_real_,
+
+        # Soil Temperature
+        # -2in  ~ 5cm
+        # -4in  ~ 10cm  <-- ADDED
+        # -8in  ~ 20cm
+        # -20in ~ 50cm
+        # -40in ~ 100cm
+        SoilTemp_C_5cm   = get_col(., "STO_-2in"),
+        SoilTemp_C_10cm  = get_col(., "STO_-4in"),
+        SoilTemp_C_20cm  = get_col(., "STO_-8in"),
+        SoilTemp_C_50cm  = get_col(., "STO_-20in"),
+        SoilTemp_C_100cm = get_col(., "STO_-40in"),
+
+        # Water Content
+        WaterCont_5cm_m3m3   = get_col(., "SMS_-2in"),
+        WaterCont_10cm_m3m3  = get_col(., "SMS_-4in"),
+        WaterCont_20cm_m3m3  = get_col(., "SMS_-8in"),
+        WaterCont_50cm_m3m3  = get_col(., "SMS_-20in"),
+        WaterCont_100cm_m3m3 = get_col(., "SMS_-40in"),
+
+        # Other / Secondary
+        Rain_cm               = NA_real_,
+        Dewpoint_C            = NA_real_,
+        DataFlag              = NA_character_,
+        WaterCont_5cm_m3m3_2  = NA_real_,
+        WaterCont_20cm_m3m3_2 = NA_real_,
+        WaterCont_50cm_m3m3_2 = NA_real_
+      )
 
     save_path <- file.path(clean_dir, paste0(station_name, ".csv"))
     write_csv(final_df, save_path)
 
     message(paste("Success! Saved to:", save_path))
-    print(names(final_df)) # Show columns to verify
   } else {
     warning(paste("No usable data found in", station_name))
   }
