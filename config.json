@@ -1,0 +1,17 @@
+{
+  "base_url": "https://api.synopticdata.com/v2/stations/timeseries",
+  "units": "metric",
+  "retry_attempts": 3,
+  "stations": {
+    "RFGLS": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "RFSPV": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "RFGLR": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "RFBRC": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "RFSKM": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "RFSMM": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "RFNSA": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "RFNST": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code"],
+    "ASEC2": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "wind_speed", "wind_direction", "solar_radiation", "snow_depth", "snow_water_equiv", "sensor_error_code"]
+  }
+}
+
