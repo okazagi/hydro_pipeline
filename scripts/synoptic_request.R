@@ -108,7 +108,9 @@ for (station_id in names(stations_config)) {
     output = "json",
     qc = "on",
     qc_remove_data = "off",
-    qc_flags = "on"
+    qc_flags = "on",
+    sensorvars = 1,
+    precip = 1
   )
 
   # 3. Fetch Data using RETRY (Simplifies the loop logic)
