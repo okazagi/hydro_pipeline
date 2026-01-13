@@ -170,7 +170,18 @@ build_set_to_depth_cm <- function(st, var_group) {
   out <- list()
   for (set_name in names(sets)) {
     pos <- sets[[set_name]]$position
-    out[[set_name]] <- pos_to_depth_cm(pos)
+
+    # 1. Try to parse the depth normally
+    d <- pos_to_depth_cm(pos)
+
+    # 2. Fallback Override:
+    # If no valid position was found (d is NA) AND this is a soil_temp sensor,
+    # force the depth to 20cm.
+    if (is.na(d) && var_group == "soil_temp") {
+      d <- 20
+    }
+
+    out[[set_name]] <- d
   }
   out
 }
@@ -264,7 +275,8 @@ process_station_to_master <- function(code, st, out_csv) {
   )
 
   # Rain: precip_intervals (best)
-  rain_raw <- get_obs_first(obs, c("precip_intervals_set_1d", "precip_intervals_set_1", "precip_accumulated_set_1d"), n)
+  rain_raw <- get_obs_first(obs, c("precip_intervals_set_1d", "precip_intervals_set_1", "precip_accumulated_set_1d",
+                                   "precip_intervals"), n)
   out$Rain_cm <- convert_precip_to_cm(rain_raw, pr_units)
 
   # Depth mapping
