@@ -1,0 +1,4 @@
+Rscript synoptic_request.R --start 202506010000 (set the start date of retrieval,
+otherwise it start from the last_timestamp.json)
+
+Rscript synoptic_transform.R path/to/data_raw/synoptic path/to/data_clean/synoptic
