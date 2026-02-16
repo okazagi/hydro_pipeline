@@ -5,3 +5,5 @@ _targets/
 .Renviron
 metadata/
 nrcs_awdb_metadata/
+old_data/
+data_processed/

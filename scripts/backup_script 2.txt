@@ -1,0 +1,207 @@
+library(httr)
+library(jsonlite)
+library(lubridate)
+library(here) # Essential for multi-computer setups
+library(optparse)
+library(lubridate)
+
+# Setup CLI Options
+option_list <- list(
+  make_option(c("-s", "--start"), type="character", default=NULL,
+              help="Override start time (YYYYMMDDHHMM). Ignored if not set.",
+              metavar="character")
+)
+
+opt_parser <- OptionParser(option_list=option_list)
+opt <- parse_args(opt_parser)
+# ---------------- Setup & Paths ---------------- #
+
+# Use here() to anchor paths to your project root
+# Assumes your folder structure is project_root/data_raw/synoptic
+base_dir <- here("data_raw", "synoptic")
+timestamp_file <- file.path(base_dir, "last_timestamps.json")
+config_path <- here("config", "syn_config.json")
+
+# Create directories if they don't exist (helpful for new computers)
+if (!dir.exists(base_dir)) dir.create(base_dir, recursive = TRUE)
+
+# Load Config
+if (!file.exists(config_path)) stop("Missing syn_config.json")
+config_file <- read_json(config_path, simplifyVector = FALSE)
+stations_config <- config_file$stations
+
+API_TOKEN <- Sys.getenv("SYNOPTIC_TOKEN")
+if (API_TOKEN == "") stop("SYNOPTIC_TOKEN not found in environment variables.")
+
+# ---------------- Helpers ---------------- #
+
+get_station_true_start <- function(station_id, token) {
+  # Synoptic Metadata Endpoint
+  url <- "https://api.synopticdata.com/v2/stations/metadata"
+
+  # Request metadata (complete=1 ensures we get the period_of_record)
+  resp <- RETRY("GET", url, query = list(
+    token = token,
+    stid = station_id,
+    complete = "1"
+  ), times = 3, pause_min = 1)
+
+  if (status_code(resp) == 200) {
+    # CRITICAL: simplifyVector = FALSE prevents R from messing up the nested structure
+    json_text <- content(resp, as = "text", encoding = "UTF-8")
+    data <- fromJSON(json_text, simplifyVector = FALSE)
+
+    # Navigate: STATION (List) -> First Item -> PERIOD_OF_RECORD -> start
+    if (!is.null(data$STATION) && length(data$STATION) > 0) {
+      st_meta <- data$STATION[[1]]
+
+      # Check if the nested key exists
+      if (!is.null(st_meta$PERIOD_OF_RECORD) && !is.null(st_meta$PERIOD_OF_RECORD$start)) {
+        start_iso <- st_meta$PERIOD_OF_RECORD$start
+
+        # Convert ISO (1997-01-01T00:00:00Z) to Synoptic (199701010000)
+        # ymd_hms uses lubridate to parse the ISO string safely
+        return(get_synoptic_time(ymd_hms(start_iso)))
+      }
+    }
+  }
+  return(NULL) # Return NULL if we can't find a date
+}
+
+# 1. simplified Time Helper (Synoptic format: YYYYMMDDHHMM)
+get_synoptic_time <- function(time_obj) {
+  format(time_obj, "%Y%m%d%H%M")
+}
+
+append_data <- function(station_id, new_data) {
+  file_path <- file.path(base_dir, paste0(station_id, ".json"))
+
+  existing <- list()
+  if (file.exists(file_path)) {
+    tryCatch({
+      existing <- read_json(file_path, simplifyVector = FALSE)
+    }, error = function(e) { warning("Read error, starting fresh.") })
+  }
+
+  combined <- c(existing, new_data)
+
+  # 1. Helper to get the unique key (station + timestamp)
+  get_obs_key <- function(chunk) {
+    # This creates a unique string for every observation in the chunk
+    paste(chunk$STID, unlist(chunk$OBSERVATIONS$date_time), collapse="|")
+  }
+
+  # 2. De-duplicate based on the content of the chunks
+  # (Simple version: remove perfectly identical chunks)
+  combined <- combined[!duplicated(sapply(combined, serialize, connection=NULL))]
+
+  # 3. Sort
+  get_chunk_start <- function(chunk) {
+    obs <- chunk$OBSERVATIONS$date_time
+    if (is.null(obs)) return("0000-00-00")
+    return(head(unlist(obs), 1))
+  }
+  combined <- combined[order(sapply(combined, get_chunk_start))]
+
+  write_json(combined, file_path, auto_unbox = TRUE, pretty = TRUE)
+}
+
+
+# ---------------- Updated Main Logic with Auto-Chunking ---------------- #
+
+timestamps <- if (file.exists(timestamp_file)) read_json(timestamp_file) else list()
+current_time_utc <- now("UTC")
+default_units <- ifelse(is.null(config_file$units), "metric", config_file$units)
+base_url <- "https://api.synopticdata.com/v2/stations/timeseries"
+
+# Define a chunk size (e.g., 30 days) to prevent API truncation
+chunk_days <- 30
+
+for (station_id in names(stations_config)) {
+
+  # 1. Determine Initial Start Time
+  if (!is.null(opt$start)) {
+    start_str <- opt$start
+    message(sprintf("\n[CLI OVERRIDE] %s: Starting from %s", station_id, start_str))
+  } else {
+    last_ts <- timestamps[[station_id]]
+    if (is.null(last_ts)) {
+      message(sprintf("\n[%s] New station. Fetching metadata...", station_id))
+      true_start <- get_station_true_start(station_id, API_TOKEN)
+      start_str <- if (!is.null(true_start)) true_start else get_synoptic_time(floor_date(current_time_utc, "day") - days(1))
+    } else {
+      start_str <- last_ts
+    }
+  }
+
+  # 2. Start the Chunking Loop
+  catching_up <- TRUE
+
+  while (catching_up) {
+    # Calculate the end of THIS chunk (Start + 30 days)
+    # ymd_hm is robust for parsing the synoptic format back into a date
+    chunk_start_date <- ymd_hm(start_str)
+    chunk_end_date <- chunk_start_date + days(chunk_days)
+
+    # Don't try to request data from the future
+    if (chunk_end_date > current_time_utc) {
+      chunk_end_date <- current_time_utc
+      catching_up <- FALSE # This is our last loop
+    }
+
+    end_str <- get_synoptic_time(chunk_end_date)
+
+    message(sprintf("  -> Requesting: %s to %s", start_str, end_str))
+
+    params <- list(
+      token = API_TOKEN,
+      stid = station_id,
+      vars = paste(stations_config[[station_id]], collapse = ","),
+      units = default_units,
+      start = start_str,
+      end = end_str,
+      output = "json",
+      complete = "1",    # <--- ADD THIS LINE
+      qc = "on",
+      qc_remove_data = "off",
+      qc_flags = "on"
+    )
+
+    response <- RETRY("GET", base_url, query = params, times = 3)
+
+    if (status_code(response) == 200) {
+      result <- content(response, as = "parsed", type = "application/json")
+
+      # CRITICAL: Verify the API actually returned data
+      if (!is.null(result$STATION) && length(result$STATION) > 0) {
+        append_data(station_id, result$STATION)
+
+        # Find the very last timestamp received in this chunk
+        last_chunk <- result$STATION[[length(result$STATION)]]
+        all_dates <- unlist(last_chunk$OBSERVATIONS$date_time)
+
+        if (length(all_dates) > 0) {
+          last_obs_iso <- tail(all_dates, 1)
+          start_str <- get_synoptic_time(ymd_hms(last_obs_iso))
+
+          # Update the global tracker so we don't lose progress if the next loop fails
+          timestamps[[station_id]] <- start_str
+          write_json(timestamps, timestamp_file, auto_unbox = TRUE, pretty = TRUE)
+        }
+      } else {
+        message("     No more data found in this window. Moving to next chunk.")
+        start_str <- end_str # Skip to the end of the empty window
+      }
+    } else {
+      warning(sprintf("     Failed chunk: %s", status_code(response)))
+      catching_up <- FALSE # Stop to prevent infinite loops on error
+    }
+
+    # Avoid hitting API rate limits
+    Sys.sleep(0.5)
+  }
+}
+
+# Save updated timestamps
+write_json(timestamps, timestamp_file, auto_unbox = TRUE, pretty = TRUE)
+ff

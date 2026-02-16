@@ -1,32 +1,27 @@
 library(httr)
 library(jsonlite)
 library(lubridate)
-library(here) # Essential for multi-computer setups
+library(here)
 library(optparse)
-library(lubridate)
 
 # Setup CLI Options
 option_list <- list(
   make_option(c("-s", "--start"), type="character", default=NULL,
-              help="Override start time (YYYYMMDDHHMM). Ignored if not set.",
+              help="Override start time (YYYYMMDDHHMM).",
               metavar="character")
 )
 
 opt_parser <- OptionParser(option_list=option_list)
 opt <- parse_args(opt_parser)
-# ---------------- Setup & Paths ---------------- #
 
-# Use here() to anchor paths to your project root
-# Assumes your folder structure is project_root/data_raw/synoptic
+# ---------------- Setup & Paths ---------------- #
 base_dir <- here("data_raw", "synoptic")
 timestamp_file <- file.path(base_dir, "last_timestamps.json")
 config_path <- here("config", "syn_config.json")
 
-# Create directories if they don't exist (helpful for new computers)
 if (!dir.exists(base_dir)) dir.create(base_dir, recursive = TRUE)
-
-# Load Config
 if (!file.exists(config_path)) stop("Missing syn_config.json")
+
 config_file <- read_json(config_path, simplifyVector = FALSE)
 stations_config <- config_file$stations
 
@@ -35,125 +30,141 @@ if (API_TOKEN == "") stop("SYNOPTIC_TOKEN not found in environment variables.")
 
 # ---------------- Helpers ---------------- #
 
-# 1. simplified Time Helper (Synoptic format: YYYYMMDDHHMM)
-get_synoptic_time <- function(time_obj) {
-  format(time_obj, "%Y%m%d%H%M")
+get_station_true_start <- function(station_id, token) {
+  url <- "https://api.synopticdata.com/v2/stations/metadata"
+  resp <- RETRY("GET", url, query = list(token = token, stid = station_id, complete = "1"), times = 3)
+  if (status_code(resp) == 200) {
+    data <- fromJSON(content(resp, as = "text", encoding = "UTF-8"), simplifyVector = FALSE)
+    if (!is.null(data$STATION) && length(data$STATION) > 0) {
+      return(get_synoptic_time(ymd_hms(data$STATION[[1]]$PERIOD_OF_RECORD$start)))
+    }
+  }
+  return(NULL)
 }
+
+get_synoptic_time <- function(time_obj) format(time_obj, "%Y%m%d%H%M")
 
 append_data <- function(station_id, new_data) {
   file_path <- file.path(base_dir, paste0(station_id, ".json"))
-
-  existing <- list()
-  if (file.exists(file_path)) {
-    tryCatch({
-      existing <- read_json(file_path, simplifyVector = FALSE)
-    }, error = function(e) { warning("Read error, starting fresh.") })
-  }
-
+  existing <- if (file.exists(file_path)) read_json(file_path, simplifyVector = FALSE) else list()
   combined <- c(existing, new_data)
-
-  # RENAMED: This helper just finds the start of a chunk for sorting purposes
+  combined <- combined[!duplicated(sapply(combined, serialize, connection=NULL))]
   get_chunk_start <- function(chunk) {
     obs <- chunk$OBSERVATIONS$date_time
     if (is.null(obs)) return("0000-00-00")
-    return(head(unlist(obs), 1)) # We sort based on the FIRST timestamp
+    return(head(unlist(obs), 1))
   }
-
-  # Sort the file contents chronologically
   combined <- combined[order(sapply(combined, get_chunk_start))]
-
   write_json(combined, file_path, auto_unbox = TRUE, pretty = TRUE)
 }
 
 # ---------------- Main Logic ---------------- #
 
-# Load timestamps (safely)
 timestamps <- if (file.exists(timestamp_file)) read_json(timestamp_file) else list()
-
-# Defaults
-current_time_str <- get_synoptic_time(now("UTC"))
+current_time_utc <- now("UTC")
 default_units <- ifelse(is.null(config_file$units), "metric", config_file$units)
 base_url <- "https://api.synopticdata.com/v2/stations/timeseries"
+chunk_days <- 30
 
-# Loop through stations
 for (station_id in names(stations_config)) {
 
-  # 1. Determine Start Time
   if (!is.null(opt$start)) {
-    # CLI Flag takes priority over everything
     start_str <- opt$start
-    message(sprintf("   [CLI OVERRIDE] Using custom start: %s", start_str))
-
   } else {
-    # AUTOMATIC MODE: Use the cursor file or default to today
     last_ts <- timestamps[[station_id]]
-
     if (is.null(last_ts)) {
-      start_str <- get_synoptic_time(floor_date(now("UTC"), "day"))
+      true_start <- get_station_true_start(station_id, API_TOKEN)
+      start_str <- if (!is.null(true_start)) true_start else get_synoptic_time(floor_date(current_time_utc, "day") - days(1))
     } else {
       start_str <- last_ts
     }
   }
 
-  message(sprintf("Fetching %s (Start: %s)...", station_id, start_str))
+  catching_up <- TRUE
 
-  # 2. Build Params
-  params <- list(
-    token = API_TOKEN,
-    stid = station_id,
-    vars = paste(stations_config[[station_id]], collapse = ","),
-    units = default_units,
-    start = start_str,
-    end = current_time_str,
-    output = "json",
-    qc = "on",
-    qc_remove_data = "off",
-    qc_flags = "on",
-    sensorvars = 1,
-    precip = 1
-  )
+  while (catching_up) {
+    chunk_start_date <- ymd_hm(start_str)
+    chunk_end_date <- chunk_start_date + days(chunk_days)
 
-  # 3. Fetch Data using RETRY (Simplifies the loop logic)
-  response <- RETRY(
-    verb = "GET",
-    url = base_url,
-    query = params,
-    times = 3, # Retry 3 times
-    pause_min = 1,
-    terminate_on = c(400, 401, 403, 404) # Don't retry client errors
-  )
+    if (chunk_end_date > current_time_utc) {
+      chunk_end_date <- current_time_utc
+      catching_up <- FALSE
+    }
 
-  # 4. Process Response
-  if (status_code(response) == 200) {
-    result <- content(response, as = "parsed", type = "application/json")
+    end_str <- get_synoptic_time(chunk_end_date)
+    message(sprintf("[%s] Requesting: %s to %s", station_id, start_str, end_str))
 
-    if (!is.null(result$STATION)) {
-      # Synoptic returns a list of stations. We typically want the first one.
-      station_data <- result$STATION
+    params <- list(
+      token = API_TOKEN, stid = station_id,
+      vars = paste(stations_config[[station_id]], collapse = ","),
+      units = default_units, start = start_str, end = end_str,
+      output = "json", qc = "on", qc_remove_data = "off",
+      qc_flags = "on", sensorvars = 1, precip = 1
+    )
 
-      # Append to disk
-      append_data(station_id, station_data)
+    # Use RETRY to handle minor blips, but check results carefully
+    response <- RETRY("GET", base_url, query = params, times = 2)
 
-      # Extract last timestamp for the tracker
-      # Access the last chunk -> OBSERVATIONS -> date_time -> last item
-      last_chunk <- station_data[[length(station_data)]]
+    # --- ERROR HANDLING BLOCK ---
+
+    # 1. Check for 502/Server Errors
+    if (status_code(response) >= 500) {
+      message(sprintf("!!! Server Error %s. API might be down. Stopping for this station.", status_code(response)))
+      catching_up <- FALSE
+      next
+    }
+
+    # 2. Check if the response is actually JSON (Prevents Lexical Error)
+    content_type <- headers(response)$`content-type`
+    if (!grepl("application/json", content_type)) {
+      message("!!! Received non-JSON response (probably an HTML error page). Stopping.")
+      catching_up <- FALSE
+      next
+    }
+
+    # 3. Safe Parse
+    raw_text <- content(response, as = "text", encoding = "UTF-8")
+    result <- fromJSON(raw_text, simplifyVector = FALSE)
+
+    # 4. Check for Synoptic-specific errors inside the JSON
+    if (!is.null(result$SUMMARY$RESPONSE_CODE) && result$SUMMARY$RESPONSE_CODE != 1) {
+      message(sprintf("!!! API returned error code %s: %s", result$SUMMARY$RESPONSE_CODE, result$SUMMARY$RESPONSE_MESSAGE))
+      catching_up <- FALSE
+      next
+    }
+
+    # --- DATA PROCESSING BLOCK ---
+
+    if (!is.null(result$STATION) && length(result$STATION) > 0) {
+      append_data(station_id, result$STATION)
+
+      # Determine new start time from last observation
+      last_chunk <- result$STATION[[length(result$STATION)]]
       all_dates <- unlist(last_chunk$OBSERVATIONS$date_time)
 
       if (length(all_dates) > 0) {
         last_obs_iso <- tail(all_dates, 1)
-        # Convert ISO (2025-01-01T12:00:00Z) to Synoptic (202501011200)
-        # ymd_hms parses the ISO string, then we format it back
-        new_last_ts <- get_synoptic_time(ymd_hms(last_obs_iso))
-        timestamps[[station_id]] <- new_last_ts
-        message(sprintf("  -> Success. New cursor: %s", new_last_ts))
+        new_start_str <- get_synoptic_time(ymd_hms(last_obs_iso))
+
+        # Prevent infinite loop if the API keeps returning the same last record
+        if (new_start_str == start_str) {
+          message("    No new time progress. Advancing manually by 1 minute.")
+          start_str <- get_synoptic_time(ymd_hms(last_obs_iso) + minutes(1))
+        } else {
+          start_str <- new_start_str
+        }
+
+        timestamps[[station_id]] <- start_str
+        write_json(timestamps, timestamp_file, auto_unbox = TRUE, pretty = TRUE)
       }
     } else {
-      message("  -> No data returned (Empty STATION list).")
+      message("    No data in this window. Advancing to next chunk.")
+      start_str <- end_str
     }
-  } else {
-    warning(sprintf("  -> Failed: %s", status_code(response)))
+
+    Sys.sleep(1) # Polite pause
   }
 }
 
-# Save updated timestamps
 write_json(timestamps, timestamp_file, auto_unbox = TRUE, pretty = TRUE)
+message("\nDone.")

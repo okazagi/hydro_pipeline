@@ -11,7 +11,8 @@
     "RFSMM": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code", "precip_interval", "precip_accum"],
     "RFNSA": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code", "precip_interval", "precip_accum"],
     "RFNST": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "sensor_error_code", "precip_interval"],
-    "ASEC2": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "wind_speed", "wind_direction", "solar_radiation", "snow_depth", "snow_water_equiv", "sensor_error_code", "precip_interval", "precip_accum"]
-  }
+    "ASEC2": ["air_temp", "dew_point_temperature", "relative_humidity", "soil_temp", "soil_moisture", "wind_speed", "wind_direction", "solar_radiation", "snow_depth", "snow_water_equiv", "sensor_error_code", "precip_interval", "precip_accum"],
+    "IDWC2": ["soil_temp", "soil_moisture", "precip_interval", "precip_accum"]
+    }
 }
 

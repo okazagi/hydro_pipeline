@@ -1,0 +1,4 @@
+synoptic_transform.R works for the old version of the synoptic_request.R script. The new version of
+synoptic_request.R breaks requests into chunks so that I don't hit API call limits if I ask for a
+large chunk of data. (This seems like a new thing, I remember this not being a problem).
+synoptic_transform_v2.R handles the chunking.

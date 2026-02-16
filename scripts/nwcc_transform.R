@@ -4,11 +4,12 @@ library(purrr)
 library(readr)
 library(tidyr)
 library(stringr)
+library(lubridate) # Added for robust date/time splitting
 
 # --- NEW: Define Station Metadata ---
 stations <- list(
   list(id = "1101:CO:SNTL", name = "Chapman Tunnel", start_date = "2023-07-14"),
-  list(id = "556:CO:SNTL",  name = "Kiln",           start_date = "2023-07-14"),
+  list(id = "556:CO:SNTL",  name = "Kiln",            start_date = "2023-07-14"),
   list(id = "1326:CO:SNTL", name = "Castle Peak",    start_date = "2024-09-16")
 )
 
@@ -126,9 +127,13 @@ for (file in json_files) {
       arrange(date)
 
     # --- APPLY MASTER SCHEMA MAPPING ---
+    # We parse the date string first to ensure we can split it correctly
     final_df <- merged_df %>%
+      mutate(temp_datetime = ymd_hm(date)) %>% # Parses "2024-01-01 12:00"
       transmute(
-        date = date,
+        # Split Date and Time, remove original 'date'
+        Date_UTC = as.character(as_date(temp_datetime)),
+        Time_UTC = format(temp_datetime, "%H:%M:%S"),
 
         # Identifiers
         Station_ID   = real_station_id,
@@ -167,7 +172,7 @@ for (file in json_files) {
         WaterCont_50cm_m3m3_2 = NA_real_
       )
 
-    save_path <- file.path(clean_dir, paste0("nwcc", station_name, ".csv"))
+    save_path <- file.path(clean_dir, paste0(station_name, ".csv"))
     write_csv(final_df, save_path)
 
     message(paste("Success! Saved to:", save_path))

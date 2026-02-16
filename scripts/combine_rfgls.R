@@ -3,9 +3,9 @@ library(lubridate)
 library(here)
 
 # 1. Define file paths
-path_uncalibrated <- here("data_clean", "Uncalibrated", "RFGLS_uncalibrated.csv")
-path_master       <- here("data_clean", "synoptic", "RFGLS_master.csv")
-output_path       <- here("data_clean", "Uncalibrated", "RFGLS_combined.csv")
+path_uncalibrated <- here("data_clean", "Uncalibrated", "RFSPV_uncalibrated.csv")
+path_master       <- here("data_clean", "synoptic", "RFSPV_master.csv")
+output_path       <- here("data_clean", "Uncalibrated", "RFSPV_combined.csv")
 
 # 2. Read the files
 df_uncalibrated <- read_csv(path_uncalibrated, show_col_types = FALSE)
