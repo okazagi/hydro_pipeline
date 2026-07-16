@@ -1,0 +1,925 @@
+{
+  "Brush Creek": {
+    "shorthand": "RFBRC",
+    "active_logger": "21535702",
+    "loggers": {
+      "21535702": {
+        "status": "active",
+        "sensors": {
+          "10555323-1": {
+            "variable": "AirTemp_C"
+          },
+          "10555323-2": {
+            "variable": "RH"
+          },
+          "10555323-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10556231-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "10558943-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10562240-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "10562241-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10564785-1": {
+            "variable": "Rain_cm"
+          },
+          "21535702-B": {
+            "variable": "Battery_Voltage"
+          },
+          "21553967-1": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion."
+          },
+          "21864541-1": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion."
+          },
+          "21864541-3": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion."
+          }
+        },
+        "first_seen": "2022-12-01",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Brush Creek 2022"
+        ]
+      },
+      "10759860": {
+        "status": "retired",
+        "sensors": {
+          "10555323-1": {
+            "variable": "AirTemp_C"
+          },
+          "10555323-2": {
+            "variable": "RH"
+          },
+          "10555323-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10556230-1": {
+            "variable": "SoilTemp_C_20cm_B"
+          },
+          "10556231-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "10558943-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10562240-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "10562241-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10564785-1": {
+            "variable": "Rain_cm"
+          },
+          "10676068-1": {
+            "variable": "WaterCont_50cm_m3m3_B"
+          },
+          "10676069-1": {
+            "variable": "WaterCont_20cm_m3m3_B"
+          },
+          "10683991-1": {
+            "variable": "WaterCont_5cm_m3m3_B"
+          },
+          "10759860-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2015-06-12",
+        "last_seen": "2016-03-22",
+        "deployment": [
+          "Brush Creek New"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      },
+      "10880398": {
+        "status": "retired",
+        "sensors": {
+          "10555323-1": {
+            "variable": "AirTemp_C"
+          },
+          "10555323-2": {
+            "variable": "RH"
+          },
+          "10555323-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10556230-1": {
+            "variable": "SoilTemp_C_20cm_B"
+          },
+          "10556231-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "10558943-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10562240-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "10562241-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10564785-1": {
+            "variable": "Rain_cm"
+          },
+          "10676068-1": {
+            "variable": "WaterCont_50cm_m3m3_B"
+          },
+          "10676069-1": {
+            "variable": "WaterCont_20cm_m3m3_B"
+          },
+          "10683991-1": {
+            "variable": "WaterCont_5cm_m3m3_B"
+          },
+          "10880398-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2016-03-22",
+        "last_seen": "2022-06-07",
+        "deployment": [
+          "Brush Creek 2016"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  },
+  "Glassier Ranch": {
+    "shorthand": "RFGLR",
+    "active_logger": "21535704",
+    "loggers": {
+      "21535704": {
+        "status": "active",
+        "sensors": {
+          "10555322-1": {
+            "variable": "AirTemp_C"
+          },
+          "10555322-2": {
+            "variable": "RH"
+          },
+          "10555322-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10556228-1": {
+            "variable": "SoilTemp_C_20cm"
+          },
+          "10558942-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10562236-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "10562237-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10562238-1": {
+            "variable": "WaterCont_100cm_m3m3",
+            "note": "Glassier Ranch \u2014 History label \"40in\" (101.6cm), rounded to 100cm per network convention."
+          },
+          "10564784-1": {
+            "variable": "Rain_cm",
+            "note": "Glassier Ranch rain. Last seen 2025-07-22 \u2014 check if still active."
+          },
+          "21535704-B": {
+            "variable": "Battery_Voltage"
+          },
+          "22369770-1": {
+            "variable": "Rain_cm"
+          }
+        },
+        "first_seen": "2022-12-01",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Glassier Ranch 2022"
+        ]
+      },
+      "10759862": {
+        "status": "retired",
+        "sensors": {
+          "10555322-1": {
+            "variable": "AirTemp_C"
+          },
+          "10555322-2": {
+            "variable": "RH"
+          },
+          "10555322-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10556228-1": {
+            "variable": "SoilTemp_C_20cm"
+          },
+          "10558942-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10562236-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "10562237-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10562238-1": {
+            "variable": "WaterCont_100cm_m3m3",
+            "note": "Glassier Ranch \u2014 History label \"40in\" (101.6cm), rounded to 100cm per network convention."
+          },
+          "10564784-1": {
+            "variable": "Rain_cm",
+            "note": "Glassier Ranch rain. Last seen 2025-07-22 \u2014 check if still active."
+          },
+          "10759862-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2015-06-12",
+        "last_seen": "2022-06-07",
+        "deployment": [
+          "Glassier Ranch New"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  },
+  "Glenwood Springs": {
+    "shorthand": "RFGLS",
+    "active_logger": "21535700",
+    "loggers": {
+      "21535700": {
+        "status": "active",
+        "sensors": {
+          "10754364-1": {
+            "variable": "AirTemp_C"
+          },
+          "10754364-2": {
+            "variable": "RH"
+          },
+          "10754364-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10763456-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "10765200-1": {
+            "variable": "Rain_cm"
+          },
+          "10769789-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Glenwood Springs WC; bare label. Verify depth (inferred 50cm from sensor_key)."
+          },
+          "10769790-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "Glenwood Springs WC; bare label. Verify depth (inferred 20cm from sensor_key)."
+          },
+          "10775619-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "Glenwood Springs WC; last seen 2024-05-21. Verify depth (inferred 5cm)."
+          },
+          "21101352-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Retired 2026-05-12. Replaced by 22477239-1. Kept for historical backfill."
+          },
+          "22477239-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "New 50cm sensor installed 2026-05-12, replacing 21101352-1."
+          },
+          "21514065-1": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion."
+          },
+          "21535700-B": {
+            "variable": "Battery_Voltage"
+          },
+          "21766795-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "Glenwood Springs has only one set of sensors; _B suffix removed. Verify this is the 20cm sensor."
+          },
+          "21785138-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "Glenwood Springs; local config had typo WaterContent \u2192 WaterCont (corrected)."
+          }
+        },
+        "first_seen": "2022-11-16",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Glenwood Springs"
+        ]
+      },
+      "10781395": {
+        "status": "retired",
+        "sensors": {
+          "10754364-1": {
+            "variable": "AirTemp_C"
+          },
+          "10754364-2": {
+            "variable": "RH"
+          },
+          "10754364-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10763456-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "10765200-1": {
+            "variable": "Rain_cm"
+          },
+          "10769789-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Glenwood Springs WC; bare label. Verify depth (inferred 50cm from sensor_key)."
+          },
+          "10769790-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "Glenwood Springs WC; bare label. Verify depth (inferred 20cm from sensor_key)."
+          },
+          "10775619-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "Glenwood Springs WC; last seen 2024-05-21. Verify depth (inferred 5cm)."
+          },
+          "10781395-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2015-08-07",
+        "last_seen": "2023-03-27",
+        "deployment": [
+          "Glenwood Springs"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  },
+  "Northstar Aspen Grove": {
+    "shorthand": "RFNSA",
+    "active_logger": "21535703",
+    "loggers": {
+      "21535703": {
+        "status": "active",
+        "sensors": {
+          "10675954-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Newly added; bare label in History. Verify a/b designation."
+          },
+          "10692373-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Newly added; bare label. S-THB ch1 typically AirTemp but classified here as SoilTemp due to the station already having a separate AirTemp sensor (10789259-1). VERIFY."
+          },
+          "10692373-2": {
+            "variable": "RH",
+            "note": "NSA \u2014 paired with 10692373-1 (S-THB channel 2 = RH)."
+          },
+          "10692373-3": {
+            "variable": "Dewpoint_C",
+            "note": "NSA \u2014 paired with 10692373-1 (S-THB channel 3 = Dewpoint)."
+          },
+          "10789174-1": {
+            "variable": "Rain_cm"
+          },
+          "10791818-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "NSA \u2014 verify depth (inferred 20cm from \"8in\" label)."
+          },
+          "10791819-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "NSA \u2014 verify depth (inferred 50cm from \"20in\" label)."
+          },
+          "10795484-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "NSA \u2014 verify depth (inferred 5cm from \"2in\" label)."
+          },
+          "21099011-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "21101351-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "NSA 2022 \u2014 bare label; verify depth (inferred 20cm)."
+          },
+          "21101396-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "21101503-1": {
+            "variable": "AirTemp_C",
+            "note": "Bare-label S-THB ch1 \u2192 AirTemp_C (paired with -2 RH and -3 Dewpoint)."
+          },
+          "21101503-2": {
+            "variable": "RH"
+          },
+          "21101503-3": {
+            "variable": "Dewpoint_C"
+          },
+          "21420751-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "21519378-1": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion."
+          },
+          "21535703-B": {
+            "variable": "Battery_Voltage"
+          },
+          "21766796-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          }
+        },
+        "first_seen": "2022-12-15",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Northstar Aspen Grove 2022"
+        ]
+      },
+      "10803251": {
+        "status": "retired",
+        "sensors": {
+          "10675954-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Newly added; bare label in History. Verify a/b designation."
+          },
+          "10692373-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Newly added; bare label. S-THB ch1 typically AirTemp but classified here as SoilTemp due to the station already having a separate AirTemp sensor (10789259-1). VERIFY."
+          },
+          "10692373-2": {
+            "variable": "RH",
+            "note": "NSA \u2014 paired with 10692373-1 (S-THB channel 2 = RH)."
+          },
+          "10692373-3": {
+            "variable": "Dewpoint_C",
+            "note": "NSA \u2014 paired with 10692373-1 (S-THB channel 3 = Dewpoint)."
+          },
+          "10789174-1": {
+            "variable": "Rain_cm"
+          },
+          "10789259-1": {
+            "variable": "AirTemp_C",
+            "note": "Bare-label S-THB ch1 \u2192 AirTemp_C (paired with -2 RH and -3 Dewpoint)."
+          },
+          "10789259-2": {
+            "variable": "RH",
+            "note": "NSA \u2014 paired with 10789259-1 (S-THB channel 2 = RH)."
+          },
+          "10789259-3": {
+            "variable": "Dewpoint_C",
+            "note": "NSA \u2014 paired with 10789259-1 (S-THB channel 3 = Dewpoint)."
+          },
+          "10791818-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "NSA \u2014 verify depth (inferred 20cm from \"8in\" label)."
+          },
+          "10791819-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "NSA \u2014 verify depth (inferred 50cm from \"20in\" label)."
+          },
+          "10795484-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "NSA \u2014 verify depth (inferred 5cm from \"2in\" label)."
+          },
+          "10803251-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2015-09-10",
+        "last_seen": "2023-07-06",
+        "deployment": [
+          "Northstar Aspen Grove"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  },
+  "Northstar Transition Zone": {
+    "shorthand": "RFNST",
+    "active_logger": "21535699",
+    "loggers": {
+      "21535699": {
+        "status": "active",
+        "sensors": {
+          "10791651-1": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion (HOBOware applies calibration). Currently not handled by the pipeline."
+          },
+          "10791817-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10795483-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10795546-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "20345952-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "NTZ \u2014 bare label; verify depth (inferred 50cm)."
+          },
+          "21535699-B": {
+            "variable": "Battery_Voltage"
+          },
+          "21776073-1": {
+            "variable": "AirTemp_C",
+            "note": "Bare-label S-THB ch1 \u2192 AirTemp_C (paired with -2 RH and -3 Dewpoint)."
+          },
+          "21776073-2": {
+            "variable": "RH"
+          },
+          "21776073-3": {
+            "variable": "Dewpoint_C"
+          },
+          "22352857-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "NTZ; local config had typo WaterContent \u2192 WaterCont (corrected)."
+          }
+        },
+        "first_seen": "2022-12-15",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Northstar Transition Zone 2022"
+        ]
+      },
+      "10803250": {
+        "status": "retired",
+        "sensors": {
+          "10791651-1": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion (HOBOware applies calibration). Currently not handled by the pipeline."
+          },
+          "10791816-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "NTZ \u2014 bare label; verify depth (inferred 50cm)."
+          },
+          "10791817-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10795483-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10795546-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Corrected 5cm\u219220cm per \"no 5cm soil temp\" rule. Verify physical install."
+          },
+          "10803250-B": {
+            "variable": "Battery_Voltage"
+          },
+          "20345952-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "NTZ \u2014 bare label; verify depth (inferred 50cm)."
+          }
+        },
+        "first_seen": "2015-11-20",
+        "last_seen": "2022-12-15",
+        "deployment": [
+          "Northstar Transition Zone"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  },
+  "Sky Mountain": {
+    "shorthand": "RFSKM",
+    "active_logger": "21436671",
+    "loggers": {
+      "21436671": {
+        "status": "active",
+        "sensors": {
+          "10160315-1": {
+            "variable": "Rain_cm"
+          },
+          "10179963-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10184731-1": {
+            "variable": "AirTemp_C"
+          },
+          "10184731-2": {
+            "variable": "RH"
+          },
+          "10184731-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10190925-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Sky Mtn \u2014 verify depth (inferred 50cm from \"20in\" label). Note: also flagged \"DO NOT USE\" on a sub-period 2015-06 to 2016-06 in the History."
+          },
+          "10190926-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10556229-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Soil temp at 20cm per History label \"Soil Temperature\"."
+          },
+          "21436671-B": {
+            "variable": "Battery_Voltage"
+          },
+          "22352856-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Sky Mtn; local config had typo WaterContent \u2192 WaterCont (corrected)."
+          }
+        },
+        "first_seen": "2022-08-25",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Sky Mtn 2022"
+        ]
+      },
+      "10759861": {
+        "status": "retired",
+        "sensors": {
+          "10160315-1": {
+            "variable": "Rain_cm"
+          },
+          "10179963-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10184731-1": {
+            "variable": "AirTemp_C"
+          },
+          "10184731-2": {
+            "variable": "RH"
+          },
+          "10184731-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10190925-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Sky Mtn \u2014 verify depth (inferred 50cm from \"20in\" label). Note: also flagged \"DO NOT USE\" on a sub-period 2015-06 to 2016-06 in the History."
+          },
+          "10190926-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10556229-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Soil temp at 20cm per History label \"Soil Temperature\"."
+          },
+          "10759861-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2015-06-12",
+        "last_seen": "2022-06-07",
+        "deployment": [
+          "Sky Mtn New"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  },
+  "Smuggler Mountain": {
+    "shorthand": "RFSMM",
+    "active_logger": "21436672",
+    "loggers": {
+      "21436672": {
+        "status": "active",
+        "sensors": {
+          "10160314-1": {
+            "variable": "Rain_cm"
+          },
+          "10184730-1": {
+            "variable": "AirTemp_C"
+          },
+          "10184730-2": {
+            "variable": "RH"
+          },
+          "10184730-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10346457-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "Smuggler Mtn; local config had wrong depth (50cm); corrected to 20cm per History label \"8in\"."
+          },
+          "10402871-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Smuggler Mtn; local config had wrong depth (100cm); corrected to 50cm per History label \"20in\"."
+          },
+          "10556227-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Newly added; History label \"Soil Temperature\". Verify physical depth."
+          },
+          "21101398-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "Smuggler 2022 \u2014 bare label; verify depth."
+          },
+          "21436672-B": {
+            "variable": "Battery_Voltage"
+          },
+          "21519378-3": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion."
+          },
+          "21519378-4": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth via \"Scaled Series\" \u2014 non-standard ingestion."
+          },
+          "21785139-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "Smuggler Mtn; local config had typo WaterContent \u2192 WaterCont (corrected)."
+          }
+        },
+        "first_seen": "2022-08-25",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Smuggler Mtn 2022"
+        ]
+      },
+      "10759863": {
+        "status": "retired",
+        "sensors": {
+          "10160314-1": {
+            "variable": "Rain_cm"
+          },
+          "10179962-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "Smuggler New deployment. Verify depth (inferred 5cm from \"2in\" label)."
+          },
+          "10184730-1": {
+            "variable": "AirTemp_C"
+          },
+          "10184730-2": {
+            "variable": "RH"
+          },
+          "10184730-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10346457-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "Smuggler Mtn; local config had wrong depth (50cm); corrected to 20cm per History label \"8in\"."
+          },
+          "10402871-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Smuggler Mtn; local config had wrong depth (100cm); corrected to 50cm per History label \"20in\"."
+          },
+          "10556227-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Newly added; History label \"Soil Temperature\". Verify physical depth."
+          },
+          "10759863-B": {
+            "variable": "Battery_Voltage"
+          },
+          "20335744-1": {
+            "variable": null,
+            "note": "Could not determine variable from labels/measures. NEEDS VERIFICATION. Smuggler New (retired) \u2014 bare label, depth unknown. Verify before any backfill use."
+          },
+          "21101398-1": {
+            "variable": null,
+            "note": "Could not determine variable from labels/measures. NEEDS VERIFICATION. Smuggler 2022 \u2014 bare label; verify depth."
+          }
+        },
+        "first_seen": "2015-06-12",
+        "last_seen": "2022-07-17",
+        "deployment": [
+          "Smuggler Mtn New"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  },
+  "Spring Valley": {
+    "shorthand": "RFSPV",
+    "active_logger": "21535701",
+    "loggers": {
+      "21535701": {
+        "status": "active",
+        "sensors": {
+          "10928526-1": {
+            "variable": "WaterCont_5cm_m3m3_B",
+            "note": "Retired 2023-07-26. Replaced by 21404417-1."
+          },
+          "10928527-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10935205-1": {
+            "variable": "SoilTemp_C_20cm_B",
+            "note": "Retired 2023-05-05; relabeled 5cm_B\u219220cm_B."
+          },
+          "10935206-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Relabeled from 5cm to 20cm \u2014 no station has a 5cm soil temp sensor."
+          },
+          "10937334-1": {
+            "variable": "AirTemp_C"
+          },
+          "10937334-2": {
+            "variable": "RH"
+          },
+          "10937334-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10945048-1": {
+            "variable": "Rain_cm"
+          },
+          "10946849-1": {
+            "variable": "WaterCont_20cm_m3m3_B"
+          },
+          "10946850-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10946851-1": {
+            "variable": "WaterCont_50cm_m3m3_B"
+          },
+          "10946855-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "20339117-1": {
+            "variable": "SoilTemp_C_20cm_B",
+            "note": "Recently corrected from 10cm_B to 20cm_B per field re-survey. Verify."
+          },
+          "21404417-1": {
+            "variable": "WaterCont_5cm_m3m3_B",
+            "note": "Recently corrected from 10cm_B to 5cm_B. Same serial appears at both Smuggler 2022 and Spring Valley 2022 \u2014 sensor was physically moved."
+          },
+          "21519379-1": {
+            "variable": "Snow_Depth_cm",
+            "note": "Snow depth (standard ingestion)."
+          },
+          "21535701-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2022-11-22",
+        "last_seen": "2026-04-29",
+        "deployment": [
+          "Spring Valley 2022"
+        ]
+      },
+      "10955846": {
+        "status": "retired",
+        "sensors": {
+          "10928525-1": {
+            "variable": "WaterCont_5cm_m3m3",
+            "note": "Retired 2021-05-18. Kept for historical backfill."
+          },
+          "10928526-1": {
+            "variable": "WaterCont_5cm_m3m3_B",
+            "note": "Retired 2023-07-26. Replaced by 21404417-1."
+          },
+          "10928527-1": {
+            "variable": "WaterCont_5cm_m3m3"
+          },
+          "10935204-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Retired 2021-05-18; relabeled 5cm\u219220cm. Kept for historical backfill."
+          },
+          "10935205-1": {
+            "variable": "SoilTemp_C_20cm_B",
+            "note": "Retired 2023-05-05; relabeled 5cm_B\u219220cm_B."
+          },
+          "10935206-1": {
+            "variable": "SoilTemp_C_20cm",
+            "note": "Relabeled from 5cm to 20cm \u2014 no station has a 5cm soil temp sensor."
+          },
+          "10937334-1": {
+            "variable": "AirTemp_C"
+          },
+          "10937334-2": {
+            "variable": "RH"
+          },
+          "10937334-3": {
+            "variable": "Dewpoint_C"
+          },
+          "10945048-1": {
+            "variable": "Rain_cm"
+          },
+          "10946849-1": {
+            "variable": "WaterCont_20cm_m3m3_B"
+          },
+          "10946850-1": {
+            "variable": "WaterCont_20cm_m3m3"
+          },
+          "10946851-1": {
+            "variable": "WaterCont_50cm_m3m3_B"
+          },
+          "10946854-1": {
+            "variable": "WaterCont_20cm_m3m3",
+            "note": "Retired 2021-05-18. Kept for historical backfill."
+          },
+          "10946855-1": {
+            "variable": "WaterCont_50cm_m3m3"
+          },
+          "10946856-1": {
+            "variable": "WaterCont_50cm_m3m3",
+            "note": "Retired 2021-05-18. Kept for historical backfill."
+          },
+          "10955846-B": {
+            "variable": "Battery_Voltage"
+          }
+        },
+        "first_seen": "2016-10-28",
+        "last_seen": "2022-12-03",
+        "deployment": [
+          "Spring Valley"
+        ],
+        "note": "Retired logger. Sensors retained for historical backfill processing only."
+      }
+    }
+  }
+}
