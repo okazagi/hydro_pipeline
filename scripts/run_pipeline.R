@@ -109,4 +109,14 @@ if (length(recent_files) > 0) {
   log_msg("WARNING: No files were updated in data_clean/ during this run.")
 }
 
+
+# 8. PHASE 6: R2 BACKUP
+log_msg("PHASE 6: R2 Backup")
+backup_result <- system2(here("scripts/backup_to_r2.sh"), stdout = TRUE, stderr = TRUE)
+if (!is.null(attr(backup_result, "status")) && attr(backup_result, "status") != 0) {
+  log_msg(sprintf("WARNING: R2 backup failed: %s", paste(backup_result, collapse = "\n")))
+} else {
+  log_msg("R2 backup of hydro_data.db completed successfully.")
+}
+
 log_msg("--- Pipeline Execution Complete ---")

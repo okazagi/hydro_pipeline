@@ -1,0 +1,3 @@
+# Copy to config/.r2_config (gitignored) and fill in your values.
+R2_ACCOUNT_ID=your_cloudflare_account_id
+R2_BUCKET=hydro-lake-v1

@@ -1,6 +1,8 @@
 # --- Secrets ---
 .env
 .Renviron
+config/.lrgs_credentials
+config/.r2_config
 
 # --- R session artifacts ---
 .Rhistory
