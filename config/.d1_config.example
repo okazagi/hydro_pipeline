@@ -1,0 +1,5 @@
+# Copy to config/.d1_config (gitignored) and fill in your values.
+D1_DB_NAME=hydro-dashboard
+# Cloudflare API token with D1 edit permission, for headless/cron auth
+# (avoids the browser-based `wrangler login` flow, which cron can't do).
+export CLOUDFLARE_API_TOKEN=your_cloudflare_api_token

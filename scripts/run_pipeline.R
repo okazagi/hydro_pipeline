@@ -119,4 +119,13 @@ if (!is.null(attr(backup_result, "status")) && attr(backup_result, "status") != 
   log_msg("R2 backup of hydro_data.db completed successfully.")
 }
 
+# 9. PHASE 7: D1 DASHBOARD SYNC
+log_msg("PHASE 7: D1 Dashboard Sync")
+d1_result <- system2(here("scripts/sync_to_d1.sh"), stdout = TRUE, stderr = TRUE)
+if (!is.null(attr(d1_result, "status")) && attr(d1_result, "status") != 0) {
+  log_msg(sprintf("WARNING: D1 dashboard sync failed: %s", paste(d1_result, collapse = "\n")))
+} else {
+  log_msg("D1 dashboard sync completed successfully.")
+}
+
 log_msg("--- Pipeline Execution Complete ---")

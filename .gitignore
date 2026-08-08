@@ -3,6 +3,7 @@
 .Renviron
 config/.lrgs_credentials
 config/.r2_config
+config/.d1_config
 
 # --- R session artifacts ---
 .Rhistory
