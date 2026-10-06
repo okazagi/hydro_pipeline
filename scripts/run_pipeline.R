@@ -120,12 +120,17 @@ if (!is.null(attr(backup_result, "status")) && attr(backup_result, "status") != 
 }
 
 # 9. PHASE 7: D1 DASHBOARD SYNC
-log_msg("PHASE 7: D1 Dashboard Sync")
-d1_result <- system2(here("scripts/sync_to_d1.sh"), stdout = TRUE, stderr = TRUE)
-if (!is.null(attr(d1_result, "status")) && attr(d1_result, "status") != 0) {
-  log_msg(sprintf("WARNING: D1 dashboard sync failed: %s", paste(d1_result, collapse = "\n")))
+# Runs only once hydro-dashboard is deployed and config/.d1_config exists.
+if (file.exists(here("config/.d1_config"))) {
+  log_msg("PHASE 7: D1 Dashboard Sync")
+  d1_result <- system2(here("scripts/sync_to_d1.sh"), stdout = TRUE, stderr = TRUE)
+  if (!is.null(attr(d1_result, "status")) && attr(d1_result, "status") != 0) {
+    log_msg(sprintf("WARNING: D1 dashboard sync failed: %s", paste(d1_result, collapse = "\n")))
+  } else {
+    log_msg("D1 dashboard sync completed successfully.")
+  }
 } else {
-  log_msg("D1 dashboard sync completed successfully.")
+  log_msg("PHASE 7: D1 Dashboard Sync skipped (config/.d1_config not present)")
 }
 
 log_msg("--- Pipeline Execution Complete ---")
