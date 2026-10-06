@@ -68,3 +68,6 @@ metadata/
 _targets/
 nrcs_awdb_metadata/
 current_config/
+
+# --- DDS fallback pulls (generated) ---
+dds_fallback/
